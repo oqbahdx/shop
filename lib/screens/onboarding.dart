@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop/screens/login.dart';
 import 'package:shop/styles/text.dart';
+import 'package:shop/widgets/responsive.dart';
+import 'package:shop/widgets/widgets.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoarding extends StatefulWidget {
+  static String id = "OnBoarding";
   @override
   _OnBoardingState createState() => _OnBoardingState();
 }
@@ -66,8 +69,7 @@ class _OnBoardingState extends State<OnBoarding> {
                 FloatingActionButton(
                   onPressed: () {
                     if (isLast) {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (BuildContext context) => LoginPage()));
+                      moveToPage(context, LoginPage.id);
                     }else{
                       pageController.nextPage(
                           duration: Duration(milliseconds: 500),
@@ -93,23 +95,17 @@ class _OnBoardingState extends State<OnBoarding> {
             child: Image(
           image: AssetImage(image),
         )),
-        SizedBox(
-          height: 40,
-        ),
+        sBox(height: 40),
         Text(
           title,
           style: titleStyle,
         ),
-        SizedBox(
-          height: 40,
-        ),
+        sBox(height: 40),
         Text(
           body,
           style: textStyle,
         ),
-        SizedBox(
-          height: 90,
-        ),
+        sBox(height: 90),
       ],
     );
   }

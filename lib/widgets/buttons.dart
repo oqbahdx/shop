@@ -7,6 +7,7 @@ Widget defaultTextFormField(
     IconData icn,
     TextEditingController controller,
     TextInputType type,
+      Widget showPass,
     bool sec = false}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -20,25 +21,28 @@ Widget defaultTextFormField(
         ),
         hintText: text,
         prefixIcon: Icon(icn),
+        suffixIcon: showPass
       ),
     ),
   );
 }
 
-Widget defaultSubmitButton({String text,Function onPress,Color color,double height = 50}){
-  return ElevatedButton(
-    style: ElevatedButton.styleFrom(
-      primary: color
-    ),
-    child: Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
-      height: 50,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+Widget defaultSubmitButton({String text,Function onPress,Color color,double height = 50,}){
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 10),
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: color
       ),
-      child: Center(child: Text(text,style: titleStyle,)),
+      child: Container(
+        height: 50,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(child: Text(text,style: titleStyle,)),
+      ),
+      onPressed:onPress,
     ),
-    onPressed:onPress,
   );
 }

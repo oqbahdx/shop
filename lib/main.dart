@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop/screens/login.dart';
 import 'package:shop/screens/onboarding.dart';
+import 'package:shop/screens/register.dart';
 
 
 void main(){
@@ -12,7 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: OnBoarding(),
+      initialRoute: OnBoarding.id,
+      routes: {
+        OnBoarding.id:(context)=>OnBoarding(),
+        LoginPage.id:(context)=>LoginPage(),
+        RegisterPage.id:(context)=>RegisterPage(),
+      },
       theme: ThemeData(
         fontFamily: 'Opti'
       ),
