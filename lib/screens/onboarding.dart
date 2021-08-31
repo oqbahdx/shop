@@ -98,14 +98,14 @@ class _OnBoardingState extends State<OnBoarding> {
         ),
         Text(
           title,
-          style: Style.titleStyle,
+          style: titleStyle,
         ),
         SizedBox(
           height: 40,
         ),
         Text(
           body,
-          style: Style.textStyle,
+          style: textStyle,
         ),
         SizedBox(
           height: 90,

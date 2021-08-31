@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop/styles/text.dart';
+import 'package:shop/widgets/buttons.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -7,16 +8,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  var nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Login Page',
-          style: Style.titleStyle,
+          style: titleStyle,
         ),
         centerTitle: true,
       ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: defaultSubmitButton(text: 'login',onPress: (){},),
+        ) ),
     );
   }
 }
