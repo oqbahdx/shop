@@ -26,6 +26,25 @@ class _OnBoardingState extends State<OnBoarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        actions: [
+          // Text('Skip',style: TextStyle(
+          //   fontSize: 18,
+          //   color: Colors.blue,
+          //   fontWeight: FontWeight.bold
+          // ),),
+          TextButton(onPressed:(){
+            moveToPage(context, LoginPage.id);
+          },child: Text('Skip',style: TextStyle(
+              fontSize: 18,
+              color: Colors.blue,
+              fontWeight: FontWeight.bold
+          ),),)
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -43,13 +62,14 @@ class _OnBoardingState extends State<OnBoarding> {
                   if (index == 2) {
                     setState(() {
                       isLast = true;
+                      print('last');
                     });
                   } else {
                     setState(() {
                       isLast = false;
                     });
                   }
-                  print('last');
+
                 },
               ),
             ),

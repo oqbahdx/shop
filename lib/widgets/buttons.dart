@@ -7,6 +7,7 @@ Widget defaultTextFormField(
     IconData icn,
     TextEditingController controller,
     TextInputType type,
+      function(String value),
       Widget showPass,
     bool sec = false}) {
   return Padding(
@@ -15,6 +16,7 @@ Widget defaultTextFormField(
       keyboardType: type,
       controller: controller,
       obscureText: sec,
+      validator: function,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
