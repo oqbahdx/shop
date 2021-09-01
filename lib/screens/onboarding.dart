@@ -43,13 +43,14 @@ class _OnBoardingState extends State<OnBoarding> {
                   if (index == 2) {
                     setState(() {
                       isLast = true;
+                      print('last');
                     });
                   } else {
                     setState(() {
                       isLast = false;
                     });
                   }
-                  print('last');
+
                 },
               ),
             ),
