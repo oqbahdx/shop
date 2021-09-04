@@ -1,41 +1,20 @@
+import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 
-class DioUrl{
+class HttpHelper {
+  static const String LOGIN = 'login';
 
-  static Dio dio;
-
-  void init(){
-    dio = Dio(
-      BaseOptions(
-        baseUrl: 'https://student.valuxapps.com/api/',
-        receiveDataWhenStatusError: true,
-        headers: {
-          'Content-Type':'application/json'
-        }
-      )
+  static void postData(
+      {@required String email, @required password, @required url}) async {
+    http.Response response = await http.post(
+      Uri.parse('https://student.valuxapps.com/api/' + url),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email, 'password': password}),
     );
-
+    var res = jsonDecode(response.body)['message'];
+    print(res.toString());
+    return res;
   }
-  static Future<Response> getData({
-  @required String url,
-    @required Map<String,dynamic> query
-})async{
-    return await dio.get(
-      url,
-      queryParameters: query,
-    );
-  }
-
-  static Future<Response> postData({@required String url,
-     Map<String,dynamic>  query,@required Map<String,dynamic> data})async{
-     return await dio.post(url,
-    data: data);
-
-  }
-
 }
-
-const String LOGIN = 'login';
-const String REGISTER = 'register';

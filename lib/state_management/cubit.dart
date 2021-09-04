@@ -1,4 +1,5 @@
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop/state_management/states.dart';
@@ -11,13 +12,28 @@ class LoginCubit extends Cubit<LoginState> {
 
   void userLogin({@required String email, @required String password}) {
     emit(LoginLoadingState());
-    DioUrl.postData(url: LOGIN, data: {'email': email, 'password': password})
-        .then((value) {
-      print(value.data);
-      emit(LoginSuccessState());
-    }).catchError((error) {
-      print("ERROR "+error.toString());
-      emit(LoginErrorState(error.toString()));
-    });
+    HttpHelper.postData(email: email, password: password, url:HttpHelper.LOGIN);
+
   }
+
+  Future<Response> registerUser({
+  @required String name,
+    @required String email,
+    @required String password,
+    @required String phone,
+})async{
+    emit(RegisterLoadingState());
+  //   DioUrl.dio.post(REGISTER,data: {
+  //     'name':name,
+  //     'email':email,
+  //     'password':password,
+  //     'phone':phone
+  //   }).then((value){
+  //     print(value.data['message']);
+  //     emit(RegisterSuccessState());
+  //   }).then((error){
+  //     print(error);
+  //     emit(RegisterErrorState(error.toString()));
+  //   });
+   }
 }

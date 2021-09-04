@@ -1,6 +1,8 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop/screens/home.dart';
 import 'package:shop/screens/register.dart';
 import 'package:shop/state_management/cubit.dart';
 import 'package:shop/state_management/states.dart';
@@ -16,6 +18,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   var formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -75,12 +78,17 @@ class _LoginPageState extends State<LoginPage> {
                         fallback:(context)=> CircularProgressIndicator(),
                         builder:(context)=> defaultSubmitButton(text: 'Login', onPress: () {
                           if(formKey.currentState.validate()){
-                            LoginCubit.get(context).userLogin(email: emailController.text,
-                                password: passwordController.text);
-                            print(passwordController.text);
-                            print(emailController.text);
-                          }else{
-                            showMessage(message: 'this is a test',color: Colors.red);
+                            try{
+                              LoginCubit.get(context).userLogin(email: emailController.text,
+                                  password: passwordController.text);
+                              print(passwordController.text);
+                              print(emailController.text);
+                              moveToPage(context, HomePage.id);
+                              showMessage(message: 'you login successfully',color: Colors.green);
+                            }on PlatformException  catch (e){
+                             print(e.message);
+                            }
+                            showMessage(message: 'Error ',color: Colors.red);
                           }
                         }),
                       ),

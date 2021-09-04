@@ -2,7 +2,6 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop/state_management/cubit.dart';
-import 'package:shop/state_management/register_cubit.dart';
 import 'package:shop/state_management/states.dart';
 import 'package:shop/styles/text.dart';
 import 'package:shop/widgets/buttons.dart';
@@ -28,7 +27,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    double hM = MediaQuery.of(context).size.height;
+    double hM = MediaQuery
+        .of(context)
+        .size
+        .height;
     return BlocProvider(
       create: (BuildContext context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginState>(
@@ -95,23 +97,23 @@ class _RegisterPageState extends State<RegisterPage> {
                         }),
                     sBox(height: hM * 0.15),
                     ConditionalBuilder(
-                      condition: true,
-                      builder: (context) => defaultSubmitButton(
-                          text: 'Register',
-                          onPress: () {
-                            if (formKey.currentState.validate()) {
-                              RegisterCubit.get(context).registerUser(
-                                name: nameController.text,
-                                email: emailController.text,
-                                password: passwordController.text,
-                                phone: phoneController.text,
-                              );
-                            } else {
-                              showMessage(
-                                  message: 'Something went wrong',
-                                  color: Colors.red);
-                            }
-                          }),
+                      condition: state is !LoginLoadingState,
+                      builder: (context) =>
+                          defaultSubmitButton(
+                              text: 'Register',
+                              onPress: () {
+                                if (formKey.currentState.validate()) {
+                                  LoginCubit.get(context).registerUser(
+                                      name: nameController.text,
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      phone: phoneController.text);
+                                } else {
+                                  showMessage(
+                                      message: 'Something went wrong',
+                                      color: Colors.red);
+                                }
+                              }),
                       fallback: (context) => CircularProgressIndicator(),
                     ),
                     sBox(height: hM * 0.05),
