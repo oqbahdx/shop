@@ -12,8 +12,8 @@ class LoginCubit extends Cubit<LoginState> {
 
   void userLogin({@required String email, @required String password}) async{
     emit(LoginLoadingState());
-  await  HttpHelper.postData(email: email, password: password, url:HttpHelper.LOGIN);
-
+   await DioHelper.userLogin(url: 'login', email: email, password: password);
+    emit(LoginSuccessState());
   }
 
   Future<Response> registerUser({
