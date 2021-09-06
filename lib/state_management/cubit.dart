@@ -10,9 +10,9 @@ class LoginCubit extends Cubit<LoginState> {
 
  static LoginCubit get(context) => BlocProvider.of(context);
 
-  void userLogin({@required String email, @required String password}) {
+  void userLogin({@required String email, @required String password}) async{
     emit(LoginLoadingState());
-    HttpHelper.postData(email: email, password: password, url:HttpHelper.LOGIN);
+  await  HttpHelper.postData(email: email, password: password, url:HttpHelper.LOGIN);
 
   }
 
