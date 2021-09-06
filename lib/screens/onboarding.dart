@@ -37,7 +37,8 @@ class _OnBoardingState extends State<OnBoarding> {
           //   fontWeight: FontWeight.bold
           // ),),
           TextButton(onPressed:(){
-            moveToPage(context, LoginPage.id);
+            moveToPage(context:context,
+               pageName: LoginPage.id);
           },child: Text('Skip',style: TextStyle(
               fontSize: 18,
               color: Colors.blue,
@@ -89,7 +90,7 @@ class _OnBoardingState extends State<OnBoarding> {
                 FloatingActionButton(
                   onPressed: () {
                     if (isLast) {
-                      moveToPage(context, LoginPage.id);
+                      moveToPage(context:context,pageName: LoginPage.id);
                     }else{
                       pageController.nextPage(
                           duration: Duration(milliseconds: 500),

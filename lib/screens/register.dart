@@ -126,7 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         TextButton(
                             onPressed: () {
-                              moveToPage(context, LoginPage.id);
+                              moveToPage(context:context, pageName:LoginPage.id);
                             },
                             child: Text('Sign in', style: textStyle))
                       ],

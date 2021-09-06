@@ -9,6 +9,6 @@ showMessage({String message,Color color}){
   );
 }
 
- moveToPage(BuildContext context,String pageName){
+ moveToPage({BuildContext context,String pageName}){
   return Navigator.of(context).pushReplacementNamed(pageName);
 }

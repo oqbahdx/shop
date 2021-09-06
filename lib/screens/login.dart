@@ -88,11 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                                         LoginCubit.get(context).userLogin(
                                         email: emailController.text,
                                         password: passwordController.text);
-                                        if(HttpHelper.err != 'false'){
-                                          moveToPage(context, HomePage.id);
-                                        }
-
-                                  //
+                                        state is LoginSuccessState;
 
                                 } catch (e) {
                                   showMessage(message: e.toString(),color: Colors.red);
@@ -110,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextButton(
                               onPressed: () {
-                                moveToPage(context, RegisterPage.id);
+                                moveToPage(context: context,pageName: RegisterPage.id);
                               },
                               child: Text('Sign up', style: textStyle))
                         ],

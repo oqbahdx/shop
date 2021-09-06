@@ -1,8 +1,9 @@
 import 'dart:convert';
-
+import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop/screens/home.dart';
 import 'package:shop/widgets/widgets.dart';
 
 class HttpHelper {
@@ -18,10 +19,14 @@ class HttpHelper {
     );
       err = jsonDecode(response.body)['status'];
      res = jsonDecode(response.body)['message'];
-     if(err == 'false'){
+     if(err.toString() == 'false'){
        showMessage(message: res,color: Colors.red);
+
      }else{
        showMessage(message: res,color: Colors.green);
+       moveToPage(
+         pageName: HomePage.id
+       );
      }
 
     return res;
