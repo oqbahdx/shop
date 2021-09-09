@@ -26,13 +26,10 @@ class _LoginPageState extends State<LoginPage> {
   bool hidePassword = true;
 
   Widget build(BuildContext context) {
-    double hM = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double hM = MediaQuery.of(context).size.height;
     return BlocProvider(
       create: (BuildContext context) => LoginCubit(),
-      child: BlocConsumer<LoginCubit, LoginState>(
+      child: BlocConsumer<LoginCubit, LoginStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
@@ -82,22 +79,16 @@ class _LoginPageState extends State<LoginPage> {
                       ConditionalBuilder(
                         condition: state is! LoginLoadingState,
                         fallback: (context) => CircularProgressIndicator(),
-                        builder: (context) =>
-                            defaultSubmitButton(
-                                text: 'Login',
-                                onPress: () async {
-                                  if (formKey.currentState.validate()) {
-                                    formKey.currentState.save();
-                                    try {
-                                      LoginCubit.get(context).userLogin(
-                                          email: emailController.text.trim(),
-                                          password: passwordController.text);
-                                    } catch (e) {
-                                      showMessage(message: e.toString(),
-                                          color: Colors.red);
-                                    }
-                                  }
-                                }),
+                        builder: (context) => defaultSubmitButton(
+                            text: 'Login',
+                            onPress: () {
+                              if (formKey.currentState.validate()) {
+                                LoginCubit.get(context).userLogin(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                );
+                              }
+                            }),
                       ),
                       sBox(height: hM * 0.10),
                       Row(
@@ -109,7 +100,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextButton(
                               onPressed: () {
-                                moveToPage(context: context,
+                                moveToPage(
+                                    context: context,
                                     pageName: RegisterPage.id);
                               },
                               child: Text('Sign up', style: textStyle))

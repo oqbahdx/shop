@@ -33,7 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
         .height;
     return BlocProvider(
       create: (BuildContext context) => LoginCubit(),
-      child: BlocConsumer<LoginCubit, LoginState>(
+      child: BlocConsumer<LoginCubit, LoginStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
@@ -97,13 +97,13 @@ class _RegisterPageState extends State<RegisterPage> {
                         }),
                     sBox(height: hM * 0.15),
                     ConditionalBuilder(
-                      condition: state is !LoginLoadingState,
+                      condition: state is! LoginLoadingState,
                       builder: (context) =>
                           defaultSubmitButton(
                               text: 'Register',
                               onPress: () {
                                 if (formKey.currentState.validate()) {
-                                  LoginCubit.get(context).registerUser(
+                                  LoginCubit.get(context).userRegister(
                                       name: nameController.text,
                                       email: emailController.text,
                                       password: passwordController.text,
@@ -126,7 +126,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         TextButton(
                             onPressed: () {
-                              moveToPage(context:context, pageName:LoginPage.id);
+                              moveToPage(
+                                  context: context, pageName: LoginPage.id);
                             },
                             child: Text('Sign in', style: textStyle))
                       ],

@@ -2,38 +2,39 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop/screens/home.dart';
 import 'package:shop/state_management/states.dart';
 import 'package:shop/utils/network.dart';
+import 'package:shop/widgets/widgets.dart';
 
-class LoginCubit extends Cubit<LoginState> {
+class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitialState());
 
  static LoginCubit get(context) => BlocProvider.of(context);
 
-  void userLogin({@required String email, @required String password}) async{
+  void userLogin({@required String email, @required String password}) {
     emit(LoginLoadingState());
-   await DioHelper.userLogin(url: 'login', email: email, password: password);
+    DioHelper.postData(url: 'login', data: {
+      'email':email,
+      'password':password
+    }).then((value){
+      print(value.data);
+      emit(LoginSuccessState());
+    }).catchError((err){
+      print(err);
+      emit(LoginErrorState(err.toString()));
+    });
+
+  }
+
+
+  void userRegister({
+  @required String name,@required String email,@required String password,@required String phone
+})async{
+    emit(LoginLoadingState());
+
     emit(LoginSuccessState());
   }
 
-  Future<Response> registerUser({
-  @required String name,
-    @required String email,
-    @required String password,
-    @required String phone,
-})async{
-    emit(RegisterLoadingState());
-  //   DioUrl.dio.post(REGISTER,data: {
-  //     'name':name,
-  //     'email':email,
-  //     'password':password,
-  //     'phone':phone
-  //   }).then((value){
-  //     print(value.data['message']);
-  //     emit(RegisterSuccessState());
-  //   }).then((error){
-  //     print(error);
-  //     emit(RegisterErrorState(error.toString()));
-  //   });
    }
-}
+
