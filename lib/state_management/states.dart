@@ -1,16 +1,9 @@
-abstract class LoginStates {}
-class LoginInitialState extends LoginStates{}
-class LoginLoadingState extends LoginStates{}
-class LoginSuccessState extends LoginStates{}
-class LoginErrorState extends LoginStates {
+abstract class ShopStates {}
+class ShopInitialState extends ShopStates{}
+class ShopLoadingState extends ShopStates{}
+class ShopSuccessState extends ShopStates{}
+class ShopErrorState extends ShopStates {
   final String error;
-  LoginErrorState(this.error);
+  ShopErrorState(this.error);
 }
 
-class RegisterInitialState extends LoginStates{}
-class RegisterLoadingState extends LoginStates{}
-class RegisterSuccessState extends LoginStates{}
-class RegisterErrorState extends LoginStates {
-  final String error;
-  RegisterErrorState(this.error);
-}

@@ -1,35 +1,42 @@
 import 'package:conditional_builder/conditional_builder.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop/screens/home.dart';
+
 import 'package:shop/screens/register.dart';
 import 'package:shop/state_management/cubit.dart';
 import 'package:shop/state_management/states.dart';
 import 'package:shop/styles/text.dart';
-import 'package:shop/utils/network.dart';
+
 import 'package:shop/widgets/buttons.dart';
 import 'package:shop/widgets/responsive.dart';
 import 'package:shop/widgets/widgets.dart';
 
-class LoginPage extends StatefulWidget {
-  static String id = "LoginPage";
 
+
+class LoginPage extends StatefulWidget {
+
+  static String id = "LoginPage";
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+
   var formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool hidePassword = true;
 
   Widget build(BuildContext context) {
+
     double hM = MediaQuery.of(context).size.height;
     return BlocProvider(
-      create: (BuildContext context) => LoginCubit(),
-      child: BlocConsumer<LoginCubit, LoginStates>(
+      create: (BuildContext context) => ShopCubit(),
+      child: BlocConsumer<ShopCubit, ShopStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
@@ -77,18 +84,20 @@ class _LoginPageState extends State<LoginPage> {
                           type: TextInputType.text),
                       sBox(height: hM * 0.15),
                       ConditionalBuilder(
-                        condition: state is! LoginLoadingState,
-                        fallback: (context) => CircularProgressIndicator(),
+                        condition: state is! ShopLoadingState,
                         builder: (context) => defaultSubmitButton(
                             text: 'Login',
                             onPress: () {
                               if (formKey.currentState.validate()) {
-                                LoginCubit.get(context).userLogin(
+                              ShopCubit.get(context).postData(
                                   email: emailController.text,
-                                  password: passwordController.text,
-                                );
+                                  password: passwordController.text);
+                                 if(state is ShopSuccessState){
+                                   moveToPage(context: context,pageName: HomePage.id);
+                                 }
                               }
                             }),
+                        fallback: (context) => CircularProgressIndicator(),
                       ),
                       sBox(height: hM * 0.10),
                       Row(
