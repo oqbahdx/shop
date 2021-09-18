@@ -6,4 +6,4 @@ class ShopErrorState extends ShopStates {
   final String error;
   ShopErrorState(this.error);
 }
-
+class ShopChangeVisibilityState extends ShopStates{}

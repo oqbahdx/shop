@@ -72,20 +72,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         text: 'Password',
                         icn: Icons.enhanced_encryption,
                         controller: passwordController,
-                        sec: hidePassword,
+                        sec: ShopCubit.get(context).isVisible,
                         type: TextInputType.text,
                         function: (String value) {
                           if (value.isEmpty) return 'Enter the password';
                         },
-                        showPass: IconButton(
-                            icon: Icon(hidePassword
-                                ? Icons.visibility
-                                : Icons.visibility_off),
-                            onPressed: () {
-                              setState(() {
-                                hidePassword = !hidePassword;
-                              });
-                            })),
+                        showPass: IconButton(onPressed: (){
+                          ShopCubit.get(context).changeIconVisibility();
+                        }, icon:Icon(ShopCubit.get(context).icon)),),
                     sBox(height: hM * 0.05),
                     defaultTextFormField(
                         text: 'Phone',

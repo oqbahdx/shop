@@ -32,7 +32,6 @@ class _LoginPageState extends State<LoginPage> {
   bool hidePassword = true;
 
   Widget build(BuildContext context) {
-
     double hM = MediaQuery.of(context).size.height;
     return BlocProvider(
       create: (BuildContext context) => ShopCubit(),
@@ -67,20 +66,16 @@ class _LoginPageState extends State<LoginPage> {
                           text: 'Password',
                           icn: Icons.enhanced_encryption,
                           controller: passwordController,
-                          sec: hidePassword,
+                          sec: ShopCubit.get(context).isVisible,
                           function: (String value) {
+
                             if (value.isEmpty) return 'enter the password';
                           },
-                          showPass: IconButton(
-                              icon: Icon(hidePassword
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
-                              onPressed: () {
-                                setState(() {
-                                  hidePassword = !hidePassword;
-                                  print(hidePassword);
-                                });
-                              }),
+                          showPass: IconButton(onPressed:(){
+                            ShopCubit.get(context).changeIconVisibility();
+                          },
+                              icon:Icon(ShopCubit.get(context).icon)),
+
                           type: TextInputType.text),
                       sBox(height: hM * 0.15),
                       ConditionalBuilder(
