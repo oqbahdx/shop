@@ -36,7 +36,16 @@ class _LoginPageState extends State<LoginPage> {
     return BlocProvider(
       create: (BuildContext context) => ShopCubit(),
       child: BlocConsumer<ShopCubit, ShopStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is ShopSuccessState)
+            if(state.loginModel.status != null){
+              print(state.loginModel.message);
+              print(state.loginModel.data.token);
+            }else{
+              print(state.loginModel.message);
+            }
+
+        },
         builder: (context, state) {
           return Scaffold(
               appBar: AppBar(

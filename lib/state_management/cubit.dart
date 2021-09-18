@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop/screens/home.dart';
 import 'package:shop/state_management/states.dart';
+import 'package:shop/utils/login_model.dart';
 import 'package:shop/utils/network.dart';
 import 'package:shop/widgets/widgets.dart';
 
 class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitialState());
+  LoginModel model;
 
   static ShopCubit get(context) => BlocProvider.of(context);
 
@@ -20,11 +22,13 @@ class ShopCubit extends Cubit<ShopStates> {
     emit(ShopLoadingState());
     HttpHelper.userLogin(body: {'email': email, 'password': password})
         .then((value) {
-      print(value);
-      emit(ShopSuccessState());
-    }).catchError((err) {
-      print("err " + err.toString());
+      model = LoginModel.fromJson(value);
+      print("message"+ model.message);
+      print(model.data.token);
+      emit(ShopSuccessState(model));
 
+    }).catchError((err) {
+      print("err :  " + err.toString());
       emit(ShopErrorState(err.toString()));
     });
   }
@@ -34,10 +38,7 @@ class ShopCubit extends Cubit<ShopStates> {
 
   void changeIconVisibility() {
     isVisible = !isVisible;
-    icon = isVisible
-        ? Icons.visibility_off_outlined
-        : Icons.visibility;
-
+    icon = isVisible ? Icons.visibility_off_outlined : Icons.visibility;
 
     emit(ShopChangeVisibilityState());
   }
