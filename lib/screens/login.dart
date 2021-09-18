@@ -38,10 +38,12 @@ class _LoginPageState extends State<LoginPage> {
       child: BlocConsumer<ShopCubit, ShopStates>(
         listener: (context, state) {
           if(state is ShopSuccessState)
-            if(state.loginModel.status != null){
+            if(state.loginModel.status){
+              showMessage(message: state.loginModel.message,color: Colors.green);
               print(state.loginModel.message);
               print(state.loginModel.data.token);
             }else{
+              showMessage(message: state.loginModel.message,color: Colors.red);
               print(state.loginModel.message);
             }
 
@@ -96,9 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                               ShopCubit.get(context).postData(
                                   email: emailController.text,
                                   password: passwordController.text);
-                                 if(state is ShopSuccessState){
-                                   moveToPage(context: context,pageName: HomePage.id);
-                                 }
+
                               }
                             }),
                         fallback: (context) => CircularProgressIndicator(),
