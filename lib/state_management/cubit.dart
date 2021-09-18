@@ -20,15 +20,14 @@ class ShopCubit extends Cubit<ShopStates> {
     @required String password,
   }) {
     emit(ShopLoadingState());
-    HttpHelper.userLogin(body: {'email': email, 'password': password})
-        .then((value) {
-      model = LoginModel.fromJson(value);
-      print("message"+ model.message);
-      print(model.data.token);
+    HttpHelper.userDioLogin(
+        url: 'login',
+        data: {'email': email, 'password': password}).then((value) {
+      print(value.data);
+      model = LoginModel.fromJson(value.data);
       emit(ShopSuccessState(model));
-
     }).catchError((err) {
-      print("err :  " + err.toString());
+      // print("error : " + err.toString());
       emit(ShopErrorState(err.toString()));
     });
   }
