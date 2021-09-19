@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop/screens/login.dart';
 import 'package:shop/styles/text.dart';
+import 'package:shop/utils/shared_prefrences.dart';
 import 'package:shop/widgets/responsive.dart';
 import 'package:shop/widgets/widgets.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 
 class OnBoarding extends StatefulWidget {
   static String id = "OnBoarding";
@@ -13,6 +15,16 @@ class OnBoarding extends StatefulWidget {
 }
 
 class _OnBoardingState extends State<OnBoarding> {
+  void submit(){
+    Shared.saveData(key: 'onBoarding',
+        value: true).then((value){
+          if(value){
+            moveToPage(
+                context: context,
+                pageName: LoginPage.id);
+          }
+    });
+  }
   bool isLast = false;
   PageController pageController = PageController();
   List<String> images = [
@@ -31,15 +43,8 @@ class _OnBoardingState extends State<OnBoarding> {
         backgroundColor: Colors.white,
         elevation: 0.0,
         actions: [
-          // Text('Skip',style: TextStyle(
-          //   fontSize: 18,
-          //   color: Colors.blue,
-          //   fontWeight: FontWeight.bold
-          // ),),
-          TextButton(onPressed:(){
-            moveToPage(context:context,
-               pageName: LoginPage.id);
-          },child: Text('Skip',style: TextStyle(
+          TextButton(onPressed:submit,
+            child: Text('Skip',style: TextStyle(
               fontSize: 18,
               color: Colors.blue,
               fontWeight: FontWeight.bold
@@ -63,6 +68,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   if (index == 2) {
                     setState(() {
                       isLast = true;
+
                       print('last');
                     });
                   } else {
@@ -90,7 +96,7 @@ class _OnBoardingState extends State<OnBoarding> {
                 FloatingActionButton(
                   onPressed: () {
                     if (isLast) {
-                      moveToPage(context:context,pageName: LoginPage.id);
+                      submit();
                     }else{
                       pageController.nextPage(
                           duration: Duration(milliseconds: 500),

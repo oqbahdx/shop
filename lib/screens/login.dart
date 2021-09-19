@@ -9,6 +9,7 @@ import 'package:shop/screens/register.dart';
 import 'package:shop/state_management/cubit.dart';
 import 'package:shop/state_management/states.dart';
 import 'package:shop/styles/text.dart';
+import 'package:shop/utils/shared_prefrences.dart';
 
 import 'package:shop/widgets/buttons.dart';
 import 'package:shop/widgets/responsive.dart';
@@ -29,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
   var formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool hidePassword = true;
 
   Widget build(BuildContext context) {
     double hM = MediaQuery.of(context).size.height;
@@ -42,6 +42,8 @@ class _LoginPageState extends State<LoginPage> {
               showMessage(message: state.loginModel.message,color: Colors.green);
               print(state.loginModel.message);
               print(state.loginModel.data.token);
+              Shared.saveData(key: 'token', value: state.loginModel.data.token);
+              moveToPage(context: context,pageName: HomePage.id);
             }else{
               showMessage(message: state.loginModel.message,color: Colors.red);
               print(state.loginModel.message);
@@ -95,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                             text: 'Login',
                             onPress: () {
                               if (formKey.currentState.validate()) {
-                              ShopCubit.get(context).postData(
+                                ShopCubit.get(context).postData(
                                   email: emailController.text,
                                   password: passwordController.text);
 
