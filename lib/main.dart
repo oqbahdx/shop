@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop/screens/home.dart';
 import 'package:shop/screens/login.dart';
 import 'package:shop/screens/onboarding.dart';
 import 'package:shop/screens/register.dart';
+import 'package:shop/state_management/cubit.dart';
 import 'package:shop/utils/shared_prefrences.dart';
 import 'package:shop/widgets/widgets.dart';
 
@@ -27,17 +29,20 @@ class MyApp extends StatelessWidget {
   MyApp({this.start});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: start,
-      routes: {
-        OnBoarding.id:(context)=>OnBoarding(),
-        LoginPage.id:(context)=>LoginPage(),
-        RegisterPage.id:(context)=>RegisterPage(),
-        HomePage.id:(context)=>HomePage(),
-      },
-      theme: ThemeData(
-        fontFamily: 'Opti'
+    return BlocProvider(
+      create: (context)=>ShopCubit(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: start,
+        routes: {
+          OnBoarding.id:(context)=>OnBoarding(),
+          LoginPage.id:(context)=>LoginPage(),
+          RegisterPage.id:(context)=>RegisterPage(),
+          HomePage.id:(context)=>HomePage(),
+        },
+        theme: ThemeData(
+          fontFamily: 'Opti'
+        ),
       ),
     );
   }

@@ -4,6 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop/screens/home.dart';
+import 'package:shop/screens/home_screens/categories.dart';
+import 'package:shop/screens/home_screens/favorite.dart';
+import 'package:shop/screens/home_screens/products.dart';
+import 'package:shop/screens/home_screens/settings.dart';
 import 'package:shop/state_management/states.dart';
 import 'package:shop/utils/login_model.dart';
 import 'package:shop/utils/network.dart';
@@ -41,4 +45,20 @@ class ShopCubit extends Cubit<ShopStates> {
 
     emit(ShopChangeVisibilityState());
   }
+  int currentIndex = 0;
+  List<Widget> bottomScreens= [
+    Products(),
+    Categories(),
+    Favorite(),
+    Settings(),
+  ];
+
+  void changeCurrentIndex(int index){
+    currentIndex = index;
+    if(bottomScreens.length <=3)
+      currentIndex++;
+    emit(ShopChangeCurrentIndexState());
+  }
+
+
 }

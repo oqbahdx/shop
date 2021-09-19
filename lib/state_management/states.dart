@@ -13,3 +13,4 @@ class ShopErrorState extends ShopStates {
   ShopErrorState(this.error);
 }
 class ShopChangeVisibilityState extends ShopStates{}
+class ShopChangeCurrentIndexState extends ShopStates{}
