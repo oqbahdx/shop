@@ -14,3 +14,11 @@ class ShopErrorState extends ShopStates {
 }
 class ShopChangeVisibilityState extends ShopStates{}
 class ShopChangeCurrentIndexState extends ShopStates{}
+
+class ShopLoadingDataState extends ShopStates{}
+class ShopSuccessDataState extends ShopStates{}
+class ShopErrorDataState extends ShopStates{
+  final String error;
+
+  ShopErrorDataState(this.error);
+}

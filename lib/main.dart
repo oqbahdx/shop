@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop/screens/home.dart';
+import 'package:shop/screens/home_screens/categories.dart';
+import 'package:shop/screens/home_screens/favorite.dart';
+import 'package:shop/screens/home_screens/products.dart';
+import 'package:shop/screens/home_screens/search.dart';
 import 'package:shop/screens/login.dart';
 import 'package:shop/screens/onboarding.dart';
 import 'package:shop/screens/register.dart';
 import 'package:shop/state_management/cubit.dart';
 import 'package:shop/utils/shared_prefrences.dart';
-import 'package:shop/widgets/widgets.dart';
+
 
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +43,10 @@ class MyApp extends StatelessWidget {
           LoginPage.id:(context)=>LoginPage(),
           RegisterPage.id:(context)=>RegisterPage(),
           HomePage.id:(context)=>HomePage(),
+          Search.id:(context)=>Search(),
+         ProductsPage.id:(context)=>ProductsPage(),
+          Favorite.id:(context)=>Favorite(),
+          Categories.id:(context)=>Categories()
         },
         theme: ThemeData(
           fontFamily: 'Opti'

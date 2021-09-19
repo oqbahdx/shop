@@ -3,6 +3,7 @@ import 'package:shop/styles/text.dart';
 
 
 class Settings extends StatefulWidget {
+  static String id = 'Settings';
 
 
   @override

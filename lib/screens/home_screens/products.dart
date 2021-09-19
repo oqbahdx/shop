@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:shop/styles/text.dart';
 
 
-class Products extends StatefulWidget {
+class ProductsPage extends StatefulWidget {
+  static String id = 'ProductsPage';
 
 
   @override
-  _ProductsState createState() => _ProductsState();
+  _ProductsPageState createState() => _ProductsPageState();
 }
 
-class _ProductsState extends State<Products> {
+class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('PRODUCTS',style: titleStyle,),
+        child: Text('ProductsPage',style: titleStyle,),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:shop/styles/text.dart';
 
 
 class Categories extends StatefulWidget {
+  static String id = 'Categories';
 
 
   @override

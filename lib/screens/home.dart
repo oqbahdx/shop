@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop/screens/home_screens/search.dart';
 import 'package:shop/state_management/cubit.dart';
 import 'package:shop/state_management/states.dart';
-import 'package:shop/styles/text.dart';
+
+import 'package:shop/widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "Home";
@@ -20,17 +22,24 @@ class _HomePageState extends State<HomePage> {
           var cubit = ShopCubit.get(context);
 
           return Scaffold(
+            appBar: AppBar(
+              actions: [
+                IconButton(onPressed:(){
+                  Navigator.of(context).pushNamed(Search.id);
+                }, icon:Icon(Icons.search))
+              ],
+            ),
             body: cubit.bottomScreens[cubit.currentIndex],
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
-              onTap: (index){
+              onTap: (index) {
                 cubit.changeCurrentIndex(index);
               },
               items: [
                 BottomNavigationBarItem(
                     icon: Icon(Icons.home_filled), label: 'Products'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.category), label: 'Categories'),
+                    icon: Icon(Icons.apps), label: 'Categories'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.favorite), label: 'Favorite'),
                 BottomNavigationBarItem(
