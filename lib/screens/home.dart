@@ -4,7 +4,6 @@ import 'package:shop/screens/home_screens/search.dart';
 import 'package:shop/state_management/cubit.dart';
 import 'package:shop/state_management/states.dart';
 
-import 'package:shop/widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "Home";

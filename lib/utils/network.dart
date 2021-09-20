@@ -15,20 +15,24 @@ class HttpHelper {
     dio = Dio(BaseOptions(
         baseUrl: 'https://student.valuxapps.com/api/',
         receiveDataWhenStatusError: true,
-        headers: {'Content-Type': 'application/json'}));
-    dio.options.headers = {'lang': 'ar'};
+        headers: {'Content-Type': 'application/json', 'lang': 'ar'}));
+
     return await dio.post(url, data: data, queryParameters: query);
   }
 
-  static Future<Response> getData({
+  static Future<Response> getDioData({
     @required String url,
+     String token,
     Map<String, dynamic> query,
   }) async {
     dio = Dio(BaseOptions(
         baseUrl: 'https://student.valuxapps.com/api/',
         receiveDataWhenStatusError: true,
-        headers: {'Content-Type': 'application/json'}));
-    dio.options.headers = {'lang': 'ar'};
-    return await dio.get(url, queryParameters: query);
+        headers: {
+          'Content-Type': 'application/json',
+          'lang': 'en',
+          'Authorization': token ?? ''
+        }));
+    return await dio.get(url, queryParameters: query??null);
   }
 }

@@ -31,3 +31,5 @@ class Shared {
 
 
 }
+
+String token = '';

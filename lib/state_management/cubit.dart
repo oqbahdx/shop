@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:shop/screens/home_screens/categories.dart';
 import 'package:shop/screens/home_screens/favorite.dart';
 import 'package:shop/screens/home_screens/products.dart';
@@ -10,6 +9,7 @@ import 'package:shop/state_management/states.dart';
 import 'package:shop/utils/home_model.dart';
 import 'package:shop/utils/login_model.dart';
 import 'package:shop/utils/network.dart';
+import 'package:shop/utils/shared_prefrences.dart';
 
 class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitialState());
@@ -18,10 +18,12 @@ class ShopCubit extends Cubit<ShopStates> {
 
   static ShopCubit get(context) => BlocProvider.of(context);
 
-  void getData() async {
+  void getHomeData()  {
     emit(ShopLoadingDataState());
-    HttpHelper.getData(url: 'home').then((value) {
+    HttpHelper.getDioData(url: 'home',token: token).then((value) {
       homeModel = HomeModel.fromJson(value.data);
+      print("status : ${homeModel.status}");
+      print(homeModel.data.banners[0].image);
       emit(ShopSuccessDataState());
     }).catchError((err) {
       emit(ShopErrorDataState(err.toString()));
