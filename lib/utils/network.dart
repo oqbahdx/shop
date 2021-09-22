@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:shop/utils/home_model.dart';
+import 'package:shop/utils/shared_prefrences.dart';
 class HttpHelper {
   static Dio dio;
 
@@ -20,19 +24,33 @@ class HttpHelper {
     return await dio.post(url, data: data, queryParameters: query);
   }
 
-  static Future<Response> getDioData({
-    @required String url,
-     String token,
-    Map<String, dynamic> query,
-  }) async {
-    dio = Dio(BaseOptions(
-        baseUrl: 'https://student.valuxapps.com/api/',
-        receiveDataWhenStatusError: true,
-        headers: {
-          'Content-Type': 'application/json',
-          'lang': 'en',
-          'Authorization': token ?? ''
-        }));
-    return await dio.get(url, queryParameters: query??null);
+  // static Future<Response> getDioData({
+  //   @required String url,
+  //    String token,
+  //   Map<String, dynamic> query,
+  // }) async {
+  //   dio = Dio(BaseOptions(
+  //       baseUrl: 'https://student.valuxapps.com/api/',
+  //       receiveDataWhenStatusError: true,
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'lang': 'en',
+  //         'Authorization': token ?? ''
+  //       }));
+  //   return await dio.get(url, queryParameters: query??null);
+  // }
+
+  static Future getHttpData()async{
+    final String url = 'https://student.valuxapps.com/api/home';
+
+    http.Response response = await http.get(Uri.parse(url),headers: {
+      'Content-Type': 'application/json',
+      'lang': 'en',
+       'Authorization': token ?? ''
+    });
+    if(response.statusCode != 200) return null;
+      return json.decode(response.body);
+
+
   }
 }

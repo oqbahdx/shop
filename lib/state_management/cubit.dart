@@ -9,7 +9,6 @@ import 'package:shop/state_management/states.dart';
 import 'package:shop/utils/home_model.dart';
 import 'package:shop/utils/login_model.dart';
 import 'package:shop/utils/network.dart';
-import 'package:shop/utils/shared_prefrences.dart';
 
 class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitialState());
@@ -20,12 +19,13 @@ class ShopCubit extends Cubit<ShopStates> {
 
   void getHomeData()  {
     emit(ShopLoadingDataState());
-    HttpHelper.getDioData(url: 'home',token: token).then((value) {
-      homeModel = HomeModel.fromJson(value.data);
-      print("status : ${homeModel.status}");
-      print(homeModel.data.banners[0].image);
+    HttpHelper.getHttpData().then((value){
+      homeModel = HomeModel.fromJson(value);
+      print(homeModel.data);
       emit(ShopSuccessDataState());
-    }).catchError((err) {
+    }).catchError((err){
+      print("err : "+ err.toString());
+      print(err);
       emit(ShopErrorDataState(err.toString()));
     });
   }
