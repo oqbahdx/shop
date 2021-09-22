@@ -21,11 +21,14 @@ class _HomePageState extends State<HomePage> {
           var cubit = ShopCubit.get(context);
 
           return Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0.0,
               actions: [
                 IconButton(onPressed:(){
                   Navigator.of(context).pushNamed(Search.id);
-                }, icon:Icon(Icons.search))
+                }, icon:Icon(Icons.search,color: Colors.black,))
               ],
             ),
             body: cubit.bottomScreens[cubit.currentIndex],

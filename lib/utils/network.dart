@@ -1,10 +1,9 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop/utils/home_model.dart';
+
 import 'package:shop/utils/shared_prefrences.dart';
 class HttpHelper {
   static Dio dio;

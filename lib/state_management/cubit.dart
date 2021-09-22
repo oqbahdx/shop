@@ -21,7 +21,6 @@ class ShopCubit extends Cubit<ShopStates> {
     emit(ShopLoadingDataState());
     HttpHelper.getHttpData().then((value){
       homeModel = HomeModel.fromJson(value);
-      print(homeModel.data);
       emit(ShopSuccessDataState());
     }).catchError((err){
       print("err : "+ err.toString());
