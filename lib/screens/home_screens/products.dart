@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop/state_management/cubit.dart';
 import 'package:shop/state_management/states.dart';
@@ -32,6 +34,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
   Widget productsScaffold(HomeModel model) {
     return SingleChildScrollView(
+
       child: Column(
         children: [
           CarouselSlider(
@@ -53,19 +56,13 @@ class _ProductsPageState extends State<ProductsPage> {
             height: 20,
           ),
           Container(
-            color: Colors.grey,
-            child: GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              mainAxisSpacing: 2,
-              crossAxisSpacing: 2,
-              childAspectRatio: 1/2.3,
-              physics: NeverScrollableScrollPhysics(),
-              children: List.generate(
-                model.data.products.length,
-                (index) => buildGridProduct(model.data.products[index]),
-              ),
-            ),
+            // color: Colors.grey,
+            child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: model.data.products.length,
+                itemBuilder: (context, index) =>
+                    buildGridProduct(model.data.products[index])),
           ),
         ],
       ),
@@ -73,19 +70,76 @@ class _ProductsPageState extends State<ProductsPage> {
   }
 
   Widget buildGridProduct(Products model) {
-    return Column(
-      children: [
-        Image(
-          image: NetworkImage(
-            model.image,
-          ),
-          fit: BoxFit.cover,
-          width: double.infinity,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        decoration: BoxDecoration(
+          color: Colors.black38,
+          borderRadius: BorderRadius.circular(15),
         ),
-        Text(model.name,maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(
-          color: Colors.black
-        ),)
-      ],
+        width: double.infinity,
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: Image(
+                image: NetworkImage(
+                  model.image,
+                ),
+                width: double.infinity,
+                height: 350,
+
+              ),
+
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              model.name,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+
+                Text(
+                  model.price.toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                if (model.discount != 0)
+                  Text(
+                    model.oldPrice.toString(),
+                    style: TextStyle(decoration: TextDecoration.lineThrough),
+                  ),
+                IconButton(
+                  icon: Icon(Icons.favorite_border_outlined),
+                  onPressed: (){},
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            if(model.discount !=0)
+            Container(
+              height: 25,
+              width: 100,
+              color: Colors.red,
+              child: Center(child: Text('DISCOUNT',style: TextStyle(
+                fontWeight: FontWeight.bold
+              ),)),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
