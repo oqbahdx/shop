@@ -7,25 +7,36 @@ import 'package:shop/screens/home_screens/products.dart';
 import 'package:shop/screens/home_screens/settings.dart';
 import 'package:shop/state_management/states.dart';
 import 'package:shop/utils/categories_model.dart';
+import 'package:shop/utils/change_favorite_model.dart';
+import 'package:shop/utils/favorite_model.dart';
 import 'package:shop/utils/home_model.dart';
 import 'package:shop/utils/login_model.dart';
 import 'package:shop/utils/network.dart';
+import 'package:shop/utils/shared_prefrences.dart';
 
 class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitialState());
   LoginModel model;
   HomeModel homeModel;
   CategoriesModel cateModel;
-
+  Map<int, bool> favorite = {};
+  ChangeFavoriteModel changeFavoriteModel;
+  FavoriteModel favoriteModel;
   static ShopCubit get(context) => BlocProvider.of(context);
 
-  void getHomeData()  {
+  void getHomeData() {
     emit(ShopLoadingDataState());
-    HttpHelper.getHttpData().then((value){
+    HttpHelper.getHttpData().then((value) {
       homeModel = HomeModel.fromJson(value);
+
+      homeModel.data.products.forEach((element) {
+        favorite.addAll({element.id: element.inFavorites});
+      });
+      print(token);
+      print(favorite.toString());
       emit(ShopSuccessDataState());
-    }).catchError((err){
-      print("err : "+ err.toString());
+    }).catchError((err) {
+      print("err : " + err.toString());
       print(err);
       emit(ShopErrorDataState(err.toString()));
     });
@@ -70,18 +81,41 @@ class ShopCubit extends Cubit<ShopStates> {
     emit(ShopChangeCurrentIndexState());
   }
 
-
-
-  void getCategory(){
+  void getCategory() {
     emit(ShopLoadingCategoryState());
-    HttpHelper.getCategories().then((value){
+    HttpHelper.getCategories().then((value) {
       cateModel = CategoriesModel.fromJson(value);
       print(cateModel.status.toString());
       print(cateModel.data.data.toString());
       emit(ShopSuccessCategoryState());
-    }).catchError((err){
+    }).catchError((err) {
       emit(ShopErrorCategoryState(err.toString()));
       print(err.toString());
+    });
+  }
+
+  void changeFavorite(int productId) async {
+    favorite[productId] = !favorite[productId];
+    emit(ShopGetFavoriteState());
+    HttpHelper.getFavorite(productId).then((value) {
+      changeFavoriteModel = ChangeFavoriteModel.fromJson(value.data);
+      print(changeFavoriteModel.message);
+      print('f');
+      emit(ShopSuccessGetFavoriteState(changeFavoriteModel));
+    }).catchError((err) {
+      emit(ShopErrorGetFavoriteState(err.toString()));
+    });
+  }
+
+
+  void getAllFavorites(){
+    HttpHelper.getAllFavorite().then((value){
+      favoriteModel = FavoriteModel.fromJson(value.data);
+      print(value.data);
+      emit(ShopSuccessGetAllFavorites());
+    }).catchError((err){
+      print(err.toString());
+      emit(ShopErrorGetAllFavorites(err.toString()));
     });
   }
 

@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => ShopCubit()..getHomeData()..getCategory(),
+          create: (context) => ShopCubit()..getHomeData()..getCategory()..getAllFavorites(),
         )
       ],
       child: BlocConsumer<ShopCubit, ShopStates>(

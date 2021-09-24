@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop/state_management/cubit.dart';
 import 'package:shop/state_management/states.dart';
 import 'package:shop/utils/home_model.dart';
+import 'package:shop/widgets/widgets.dart';
 
 class ProductsPage extends StatefulWidget {
   static String id = 'ProductsPage';
@@ -20,7 +21,15 @@ class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is ShopSuccessGetFavoriteState){
+          if(!state.model.status){
+            showMessage(message: state.model.message,color: Colors.red);
+          }else{
+            showMessage(message: state.model.message,color: Colors.green);
+          }
+        }
+      },
       builder: (context, state) {
         return ConditionalBuilder(
           condition: ShopCubit.get(context).homeModel != null,
@@ -34,7 +43,6 @@ class _ProductsPageState extends State<ProductsPage> {
 
   Widget productsScaffold(HomeModel model) {
     return SingleChildScrollView(
-
       child: Column(
         children: [
           CarouselSlider(
@@ -61,7 +69,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: model.data.products.length,
-                 itemBuilder: (context, index) =>
+                itemBuilder: (context, index) =>
                     buildGridProduct(model.data.products[index])),
           ),
         ],
@@ -89,9 +97,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 ),
                 width: double.infinity,
                 height: 350,
-
               ),
-
             ),
             SizedBox(
               height: 10,
@@ -109,7 +115,6 @@ class _ProductsPageState extends State<ProductsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-
                 Text(
                   model.price.toString(),
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -119,24 +124,37 @@ class _ProductsPageState extends State<ProductsPage> {
                     model.oldPrice.toString(),
                     style: TextStyle(decoration: TextDecoration.lineThrough),
                   ),
-                IconButton(
-                  icon: Icon(Icons.favorite_border_outlined),
-                  onPressed: (){},
+                CircleAvatar(
+                  backgroundColor: ShopCubit.get(context).favorite[model.id]
+                      ? Colors.red
+                      : Colors.grey,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.favorite_border_outlined,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      ShopCubit.get(context).changeFavorite(model.id);
+                      print(model.id);
+                    },
+                  ),
                 ),
               ],
             ),
             SizedBox(
               height: 10,
             ),
-            if(model.discount !=0)
-            Container(
-              height: 25,
-              width: 100,
-              color: Colors.red,
-              child: Center(child: Text('DISCOUNT',style: TextStyle(
-                fontWeight: FontWeight.bold
-              ),)),
-            )
+            if (model.discount != 0)
+              Container(
+                height: 25,
+                width: 100,
+                color: Colors.red,
+                child: Center(
+                    child: Text(
+                  'DISCOUNT',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )),
+              )
           ],
         ),
       ),

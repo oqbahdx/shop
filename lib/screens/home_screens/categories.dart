@@ -34,44 +34,33 @@ class _CategoriesState extends State<Categories> {
   Widget buildCategoriesList(CategoriesModel model) {
     return Scaffold(
         body: ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
             itemCount: model.data.data.length,
             itemBuilder: (context, index) => Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
-
                   shape: Border(
-                    left:  BorderSide(
-                        width: 2,
-                        style: BorderStyle.solid
-                    ),
-                    bottom:  BorderSide(
-                        width: 2,
-                        style: BorderStyle.solid
-                    ),
-                    top:  BorderSide(
-                        width: 2,
-                        style: BorderStyle.solid
-                    ),
-                    right: BorderSide(
-                      width: 2,
-                      style: BorderStyle.solid
-                    ),
+                    left: BorderSide(width: 2, style: BorderStyle.solid),
+                    bottom: BorderSide(width: 2, style: BorderStyle.solid),
+                    top: BorderSide(width: 2, style: BorderStyle.solid),
+                    right: BorderSide(width: 2, style: BorderStyle.solid),
                   ),
                   child: Container(
                     child: Stack(
                       children: [
                         Image.network(
-                            model.data.data[index].image.toString(),height: 130,),
+                          model.data.data[index].image.toString(),
+                          height: 130,
+                        ),
                         Container(
                           alignment: Alignment.center,
                           color: Colors.black.withOpacity(.8),
                           child: Text(
                             model.data.data[index].name.toString(),
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              color: Colors.white
-                            ),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                                color: Colors.white),
                           ),
                         )
                       ],

@@ -62,4 +62,33 @@ class HttpHelper {
     return json.decode(response.body);
   }
 
+  static Future getFavorite(int productId)async{
+    final String url = 'https://student.valuxapps.com/api/favorites';
+    http.Response response = await http.post(Uri.parse(url),
+    headers: {
+      'lang':'en',
+      'Content-Type':'application/json',
+      'Authorization':token,
+    },
+      body: jsonEncode({
+        'product_id':productId
+      }),
+    );
+    if(response.statusCode !=200) return null;
+    return json.decode(response.body);
+  }
+
+  static Future getAllFavorite()async{
+    final String url = 'https://student.valuxapps.com/api/favorites';
+    http.Response response = await http.post(Uri.parse(url),
+    headers: {
+      'lang':'en',
+      'Content-Type':'application/json',
+      'Authorization':token
+    }
+    );
+    if(response.statusCode !=200) return null;
+    return json.decode(response.body);
+  }
+
 }
