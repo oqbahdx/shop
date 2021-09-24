@@ -52,4 +52,14 @@ class HttpHelper {
 
 
   }
+
+  static Future getCategories()async{
+    final String url = 'https://student.valuxapps.com/api/categories';
+    http.Response response = await http.get(Uri.parse(url),
+    headers: {'lang':'en'}
+    );
+    if(response.statusCode !=200) return null;
+    return json.decode(response.body);
+  }
+
 }

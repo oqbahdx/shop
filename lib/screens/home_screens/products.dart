@@ -61,7 +61,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: model.data.products.length,
-                itemBuilder: (context, index) =>
+                 itemBuilder: (context, index) =>
                     buildGridProduct(model.data.products[index])),
           ),
         ],
@@ -75,7 +75,7 @@ class _ProductsPageState extends State<ProductsPage> {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
-          color: Colors.black38,
+          color: Colors.black26,
           borderRadius: BorderRadius.circular(15),
         ),
         width: double.infinity,

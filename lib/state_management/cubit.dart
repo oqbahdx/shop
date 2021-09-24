@@ -6,6 +6,7 @@ import 'package:shop/screens/home_screens/favorite.dart';
 import 'package:shop/screens/home_screens/products.dart';
 import 'package:shop/screens/home_screens/settings.dart';
 import 'package:shop/state_management/states.dart';
+import 'package:shop/utils/categories_model.dart';
 import 'package:shop/utils/home_model.dart';
 import 'package:shop/utils/login_model.dart';
 import 'package:shop/utils/network.dart';
@@ -14,6 +15,7 @@ class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitialState());
   LoginModel model;
   HomeModel homeModel;
+  CategoriesModel cateModel;
 
   static ShopCubit get(context) => BlocProvider.of(context);
 
@@ -67,4 +69,20 @@ class ShopCubit extends Cubit<ShopStates> {
     if (bottomScreens.length <= 3) currentIndex++;
     emit(ShopChangeCurrentIndexState());
   }
+
+
+
+  void getCategory(){
+    emit(ShopLoadingCategoryState());
+    HttpHelper.getCategories().then((value){
+      cateModel = CategoriesModel.fromJson(value);
+      print(cateModel.status.toString());
+      print(cateModel.data.data.toString());
+      emit(ShopSuccessCategoryState());
+    }).catchError((err){
+      emit(ShopErrorCategoryState(err.toString()));
+      print(err.toString());
+    });
+  }
+
 }

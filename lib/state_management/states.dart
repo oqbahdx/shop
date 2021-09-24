@@ -22,3 +22,11 @@ class ShopErrorDataState extends ShopStates{
 
   ShopErrorDataState(this.error);
 }
+
+class ShopLoadingCategoryState extends ShopStates{}
+class ShopSuccessCategoryState extends ShopStates{}
+class ShopErrorCategoryState extends ShopStates{
+  final String error;
+
+  ShopErrorCategoryState(this.error);
+}

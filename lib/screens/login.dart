@@ -51,82 +51,85 @@ class _LoginPageState extends State<LoginPage> {
 
         },
         builder: (context, state) {
-          return Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  'Login Page',
-                  style: titleStyle,
-                ),
-                centerTitle: true,
-              ),
-              body: SingleChildScrollView(
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      sBox(height: hM * 0.25),
-                      defaultTextFormField(
-                        text: 'Email',
-                        icn: Icons.email,
-                        controller: emailController,
-                        function: (String value) {
-                          if (value.isEmpty) return 'enter the email';
-                        },
-                        type: TextInputType.emailAddress,
-                      ),
-                      sBox(height: hM * 0.05),
-                      defaultTextFormField(
-                          text: 'Password',
-                          icn: Icons.enhanced_encryption,
-                          controller: passwordController,
-                          sec: ShopCubit.get(context).isVisible,
-                          function: (String value) {
+          return SafeArea(
 
-                            if (value.isEmpty) return 'enter the password';
-                          },
-                          showPass: IconButton(onPressed:(){
-                            ShopCubit.get(context).changeIconVisibility();
-                          },
-                              icon:Icon(ShopCubit.get(context).icon)),
-
-                          type: TextInputType.text),
-                      sBox(height: hM * 0.15),
-                      ConditionalBuilder(
-                        condition: state is! ShopLoadingState,
-                        builder: (context) => defaultSubmitButton(
-                            text: 'Login',
-                            onPress: () {
-                              if (formKey.currentState.validate()) {
-                                ShopCubit.get(context).postData(
-                                  email: emailController.text,
-                                  password: passwordController.text);
-
-
-                              }
-                            }),
-                        fallback: (context) => CircularProgressIndicator(),
-                      ),
-                      sBox(height: hM * 0.10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Do you have an account ? ',
-                            style: textStyle,
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                moveToPage(
-                                    context: context,
-                                    pageName: RegisterPage.id);
-                              },
-                              child: Text('Sign up', style: textStyle))
-                        ],
-                      )
-                    ],
+            child: Scaffold(
+                appBar: AppBar(
+                  title: Text(
+                    'Login Page',
+                    style: titleStyle,
                   ),
+                  centerTitle: true,
                 ),
-              ));
+                body: SingleChildScrollView(
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        sBox(height: hM * 0.25),
+                        defaultTextFormField(
+                          text: 'Email',
+                          icn: Icons.email,
+                          controller: emailController,
+                          function: (String value) {
+                            if (value.isEmpty) return 'enter the email';
+                          },
+                          type: TextInputType.emailAddress,
+                        ),
+                        sBox(height: hM * 0.05),
+                        defaultTextFormField(
+                            text: 'Password',
+                            icn: Icons.enhanced_encryption,
+                            controller: passwordController,
+                            sec: ShopCubit.get(context).isVisible,
+                            function: (String value) {
+
+                              if (value.isEmpty) return 'enter the password';
+                            },
+                            showPass: IconButton(onPressed:(){
+                              ShopCubit.get(context).changeIconVisibility();
+                            },
+                                icon:Icon(ShopCubit.get(context).icon)),
+
+                            type: TextInputType.text),
+                        sBox(height: hM * 0.15),
+                        ConditionalBuilder(
+                          condition: state is! ShopLoadingState,
+                          builder: (context) => defaultSubmitButton(
+                              text: 'Login',
+                              onPress: () {
+                                if (formKey.currentState.validate()) {
+                                  ShopCubit.get(context).postData(
+                                    email: emailController.text,
+                                    password: passwordController.text);
+
+
+                                }
+                              }),
+                          fallback: (context) => CircularProgressIndicator(),
+                        ),
+                        sBox(height: hM * 0.10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Do you have an account ? ',
+                              style: textStyle,
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  moveToPage(
+                                      context: context,
+                                      pageName: RegisterPage.id);
+                                },
+                                child: Text('Sign up', style: textStyle))
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                )),
+          );
         },
       ),
     );
