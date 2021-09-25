@@ -48,9 +48,11 @@ class _CategoriesState extends State<Categories> {
                   child: Container(
                     child: Stack(
                       children: [
-                        Image.network(
-                          model.data.data[index].image.toString(),
-                          height: 130,
+                        FadeInImage(
+                          placeholder: AssetImage('images/holder.jpg'),
+                          image: NetworkImage(model.data.data[index].image,
+                          ),
+
                         ),
                         Container(
                           alignment: Alignment.center,

@@ -22,11 +22,11 @@ class _ProductsPageState extends State<ProductsPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, state) {
-        if(state is ShopSuccessGetFavoriteState){
-          if(!state.model.status){
-            showMessage(message: state.model.message,color: Colors.red);
-          }else{
-            showMessage(message: state.model.message,color: Colors.green);
+        if (state is ShopSuccessGetFavoriteState) {
+          if (!state.model.status) {
+            showMessage(message: state.model.message, color: Colors.red);
+          } else {
+            showMessage(message: state.model.message, color: Colors.green);
           }
         }
       },
@@ -47,7 +47,8 @@ class _ProductsPageState extends State<ProductsPage> {
         children: [
           CarouselSlider(
               items: model.data.banners
-                  .map((e) => Image(
+                  .map((e) => FadeInImage(
+                         placeholder: AssetImage('images/holder.jpg'),
                         image: NetworkImage('${e.image}'),
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -91,7 +92,8 @@ class _ProductsPageState extends State<ProductsPage> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(25),
-              child: Image(
+              child: FadeInImage(
+                placeholder: AssetImage('images/holder.jpg'),
                 image: NetworkImage(
                   model.image,
                 ),
