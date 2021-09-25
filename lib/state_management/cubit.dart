@@ -12,7 +12,7 @@ import 'package:shop/utils/favorite_model.dart';
 import 'package:shop/utils/home_model.dart';
 import 'package:shop/utils/login_model.dart';
 import 'package:shop/utils/network.dart';
-import 'package:shop/utils/shared_prefrences.dart';
+
 
 class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitialState());
@@ -21,7 +21,7 @@ class ShopCubit extends Cubit<ShopStates> {
   CategoriesModel cateModel;
   Map<int, bool> favorite = {};
   ChangeFavoriteModel changeFavoriteModel;
-  FavoriteModel favoriteModel;
+  FavoritesModel favoriteModel;
   static ShopCubit get(context) => BlocProvider.of(context);
 
   void getHomeData() {
@@ -32,8 +32,8 @@ class ShopCubit extends Cubit<ShopStates> {
       homeModel.data.products.forEach((element) {
         favorite.addAll({element.id: element.inFavorites});
       });
-      print(token);
-      print(favorite.toString());
+      // print(token);
+      // print(favorite.toString());
       emit(ShopSuccessDataState());
     }).catchError((err) {
       print("err : " + err.toString());
@@ -85,8 +85,8 @@ class ShopCubit extends Cubit<ShopStates> {
     emit(ShopLoadingCategoryState());
     HttpHelper.getCategories().then((value) {
       cateModel = CategoriesModel.fromJson(value);
-      print(cateModel.status.toString());
-      print(cateModel.data.data.toString());
+      // print(cateModel.status.toString());
+      // print(cateModel.data.data.toString());
       emit(ShopSuccessCategoryState());
     }).catchError((err) {
       emit(ShopErrorCategoryState(err.toString()));
@@ -99,8 +99,8 @@ class ShopCubit extends Cubit<ShopStates> {
     emit(ShopGetFavoriteState());
     HttpHelper.getFavorite(productId).then((value) {
       changeFavoriteModel = ChangeFavoriteModel.fromJson(value.data);
-      print(changeFavoriteModel.message);
-      print('f');
+      // print(changeFavoriteModel.message);
+      // print('f');
       emit(ShopSuccessGetFavoriteState(changeFavoriteModel));
     }).catchError((err) {
       emit(ShopErrorGetFavoriteState(err.toString()));
@@ -110,8 +110,8 @@ class ShopCubit extends Cubit<ShopStates> {
 
   void getAllFavorites(){
     HttpHelper.getAllFavorite().then((value){
-      favoriteModel = FavoriteModel.fromJson(value.data);
-      print(value.data);
+      favoriteModel = FavoritesModel.fromJson(value);
+      print(favoriteModel.data.data[0].product.price);
       emit(ShopSuccessGetAllFavorites());
     }).catchError((err){
       print(err.toString());
@@ -120,3 +120,5 @@ class ShopCubit extends Cubit<ShopStates> {
   }
 
 }
+
+

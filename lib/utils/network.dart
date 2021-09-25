@@ -80,12 +80,10 @@ class HttpHelper {
 
   static Future getAllFavorite()async{
     final String url = 'https://student.valuxapps.com/api/favorites';
-    http.Response response = await http.post(Uri.parse(url),
-    headers: {
-      'lang':'en',
-      'Content-Type':'application/json',
-      'Authorization':token
-    }
+    http.Response response = await http.get(Uri.parse(url),
+        headers: {'lang':'en',
+         'Content-Type':'application/json',
+         'Authorization':token,}
     );
     if(response.statusCode !=200) return null;
     return json.decode(response.body);

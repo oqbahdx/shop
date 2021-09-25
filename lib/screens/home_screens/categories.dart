@@ -34,6 +34,8 @@ class _CategoriesState extends State<Categories> {
   Widget buildCategoriesList(CategoriesModel model) {
     return Scaffold(
         body: ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
           physics: NeverScrollableScrollPhysics(),
             itemCount: model.data.data.length,
             itemBuilder: (context, index) => Padding(
