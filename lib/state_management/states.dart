@@ -45,6 +45,7 @@ class ShopErrorGetFavoriteState extends ShopStates{
 }
 
 class ShopSuccessGetAllFavorites extends ShopStates{}
+class ShopLoadingGetAllFavorites extends ShopStates{}
 class ShopErrorGetAllFavorites extends ShopStates{
   final String error;
 
