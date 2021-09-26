@@ -51,3 +51,10 @@ class ShopErrorGetAllFavorites extends ShopStates{
 
   ShopErrorGetAllFavorites(this.error);
 }
+
+class ShopChangeFavoriteState extends ShopStates{}
+
+
+class ShopLoadingProfileState extends ShopStates{}
+class ShopSuccessProfileState extends ShopStates{}
+class ShopErrorProfileState extends ShopStates{}

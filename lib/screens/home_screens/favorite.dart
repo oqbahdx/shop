@@ -16,48 +16,60 @@ class Favorite extends StatefulWidget {
 class _FavoriteState extends State<Favorite> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ShopCubit,ShopStates>(listener: (context,state){},
-      builder: (context,state){
-      return ConditionalBuilder(
-        condition: ShopCubit.get(context).favoriteModel !=null,
-        builder: (context)=>buildListT(ShopCubit.get(context).favoriteModel),
-        fallback: (context)=>Center(child: CircularProgressIndicator()),
-      );
-      },
+    return BlocConsumer<ShopCubit, ShopStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return ConditionalBuilder(
+          condition: state is! ShopLoadingGetAllFavorites,
+          builder: (context) =>
+              buildListT(ShopCubit.get(context).favoriteModel),
+          fallback: (context) => Center(child: CircularProgressIndicator()),
         );
+      },
+    );
   }
 
-  Widget buildListT(FavoritesModel model){
+  Widget buildListT(FavoritesModel model) {
     return ListView.separated(
-        separatorBuilder:(context,index)=>Divider(thickness: 2,),
+        separatorBuilder: (context, index) => Divider(
+              thickness: 2,
+            ),
         itemCount: model.data.data.length,
-        itemBuilder: (context,index){
-      return Container(
-        child: ListTile(
-          title: Text(model.data.data[index].product.name,style: textStyle,maxLines: 1,),
-          leading:FadeInImage(
-            placeholder: AssetImage('images/holder.jpg'),
-            image: NetworkImage(model.data.data[index].product.image,scale: 1,
+        itemBuilder: (context, index) {
+          return Container(
+            child: ListTile(
+              title: Text(
+                model.data.data[index].product.name,
+                style: textStyle,
+                maxLines: 1,
+              ),
+              leading: FadeInImage(
+                placeholder: AssetImage('images/holder.jpg'),
+                image: NetworkImage(
+                  model.data.data[index].product.image,
+                  scale: 1,
+                ),
+              ),
+              subtitle: Text(model.data.data[index].product.price.toString()),
+              trailing: CircleAvatar(
+                backgroundColor: ShopCubit.get(context)
+                        .favorite[model.data.data[index].product.id]
+                    ? Colors.red
+                    : Colors.grey,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.favorite_border_outlined,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    ShopCubit.get(context)
+                        .changeFavorite(model.data.data[index].product.id);
+                    print(model.data.data[index].product.id);
+                  },
+                ),
+              ),
             ),
-          ),
-          subtitle: Text(model.data.data[index].product.price.toString()),
-          trailing: IconButton(
-            icon: Icon(
-              Icons.favorite_border_outlined,
-              color: Colors.red,
-            ),
-            onPressed: () {
-              ShopCubit.get(context).changeFavorite(model.data.data[index].product.id);
-              print(model.data.data[index].product.id);
-            },
-          ),
-
-
-        ),
-      );
-
-    });
-
+          );
+        });
   }
-
 }

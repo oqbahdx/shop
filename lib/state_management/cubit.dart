@@ -12,6 +12,7 @@ import 'package:shop/utils/favorite_model.dart';
 import 'package:shop/utils/home_model.dart';
 import 'package:shop/utils/login_model.dart';
 import 'package:shop/utils/network.dart';
+import 'package:shop/utils/shared_prefrences.dart';
 
 
 class ShopCubit extends Cubit<ShopStates> {
@@ -32,7 +33,7 @@ class ShopCubit extends Cubit<ShopStates> {
       homeModel.data.products.forEach((element) {
         favorite.addAll({element.id: element.inFavorites});
       });
-      // print(token);
+       print(token);
       // print(favorite.toString());
       emit(ShopSuccessDataState());
     }).catchError((err) {
@@ -96,11 +97,15 @@ class ShopCubit extends Cubit<ShopStates> {
 
   void changeFavorite(int productId) async {
     favorite[productId] = !favorite[productId];
-    emit(ShopGetFavoriteState());
+    emit(ShopChangeFavoriteState());
     HttpHelper.getFavorite(productId).then((value) {
-      changeFavoriteModel = ChangeFavoriteModel.fromJson(value.data);
-      // print(changeFavoriteModel.message);
-      // print('f');
+      changeFavoriteModel = ChangeFavoriteModel.fromJson(value);
+       print(changeFavoriteModel.message);
+      if(!favoriteModel.status){
+        favorite[productId] = !favorite[productId];
+      }else{
+        getAllFavorites();
+      }
       emit(ShopSuccessGetFavoriteState(changeFavoriteModel));
     }).catchError((err) {
       emit(ShopErrorGetFavoriteState(err.toString()));
@@ -109,6 +114,7 @@ class ShopCubit extends Cubit<ShopStates> {
 
 
   void getAllFavorites(){
+    emit(ShopLoadingGetAllFavorites());
     HttpHelper.getAllFavorite().then((value){
       favoriteModel = FavoritesModel.fromJson(value);
       print(favoriteModel.data.data[0].product.price);
@@ -118,6 +124,19 @@ class ShopCubit extends Cubit<ShopStates> {
       emit(ShopErrorGetAllFavorites(err.toString()));
     });
   }
+
+  void getUserProfile(){
+    emit(ShopLoadingProfileState());
+    HttpHelper.getProfile().then((value){
+      model  = LoginModel.fromJson(value);
+      print(model.data.name);
+      emit(ShopSuccessProfileState());
+    }).catchError((err){
+      print(err.toString());
+      emit(ShopErrorProfileState());
+    });
+  }
+
 
 }
 

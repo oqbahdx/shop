@@ -89,4 +89,17 @@ class HttpHelper {
     return json.decode(response.body);
   }
 
+  static Future getProfile()async{
+    final String url = "https://student.valuxapps.com/api/profile";
+
+    http.Response response = await http.get(Uri.parse(url),headers: {
+      'lang':'en',
+      'Content-Type':'application/json',
+      'Authorization':token,
+    });
+
+    if(response.statusCode != 200) return null;
+    return jsonDecode(response.body);
+  }
+
 }
