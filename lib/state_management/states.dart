@@ -58,3 +58,10 @@ class ShopChangeFavoriteState extends ShopStates{}
 class ShopLoadingProfileState extends ShopStates{}
 class ShopSuccessProfileState extends ShopStates{}
 class ShopErrorProfileState extends ShopStates{}
+
+class ShopSuccessUpdateProfileState extends ShopStates{}
+class ShopErrorUpdateProfileState extends ShopStates{
+  final String error;
+
+  ShopErrorUpdateProfileState(this.error);
+}

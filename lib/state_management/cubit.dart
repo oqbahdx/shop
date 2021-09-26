@@ -137,6 +137,21 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
+  void updateProfile({String name,String email,String phone,String image}){
+    HttpHelper.updateUserProfile(
+      image: image,
+      email: email,
+      name: name,
+      phone: phone,
+    ).then((value){
+      model = LoginModel.fromJson(value);
+      print(model.data.name);
+      emit(ShopSuccessUpdateProfileState());
+    }).catchError((err){
+     print(err.toString());
+     emit(ShopErrorUpdateProfileState(err.toString()));
+    });
+  }
 
 }
 

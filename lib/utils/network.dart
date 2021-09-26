@@ -102,4 +102,25 @@ class HttpHelper {
     return jsonDecode(response.body);
   }
 
+
+  static Future updateUserProfile({String name,String email,String phone,String image})async{
+    final String url = 'https://student.valuxapps.com/api/update-profile';
+    http.Response response = await http.put(Uri.parse(url),
+    headers: {
+      'lang':'en',
+      'Content-Type':'application/json',
+      'Authorization':token,
+    },
+      body: jsonEncode({
+        'name': name,
+        'email':email,
+        'phone':phone,
+        'image':image,
+      }),
+    );
+
+    if(response.statusCode !=200) return null;
+    return jsonDecode(response.body);
+  }
+
 }

@@ -42,8 +42,11 @@ class _LoginPageState extends State<LoginPage> {
               showMessage(message: state.loginModel.message,color: Colors.green);
               print(state.loginModel.message);
               print(state.loginModel.data.token);
-              Shared.saveData(key: 'token', value: state.loginModel.data.token);
-              moveToPage(context: context,pageName: HomePage.id);
+              Shared.saveData(key: 'token', value: state.loginModel.data.token).then((value){
+                token = state.loginModel.data.token;
+                moveToPage(context: context,pageName: HomePage.id);
+              });
+
             }else{
               showMessage(message: state.loginModel.message,color: Colors.red);
               print(state.loginModel.message);
@@ -99,6 +102,8 @@ class _LoginPageState extends State<LoginPage> {
                               text: 'Login',
                               onPress: () {
                                 if (formKey.currentState.validate()) {
+
+
                                   ShopCubit.get(context).postData(
                                     email: emailController.text,
                                     password: passwordController.text);

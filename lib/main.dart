@@ -5,6 +5,7 @@ import 'package:shop/screens/home_screens/categories.dart';
 import 'package:shop/screens/home_screens/favorite.dart';
 import 'package:shop/screens/home_screens/products.dart';
 import 'package:shop/screens/home_screens/search.dart';
+import 'package:shop/screens/home_screens/update_image_profile.dart';
 import 'package:shop/screens/login.dart';
 import 'package:shop/screens/onboarding.dart';
 import 'package:shop/screens/register.dart';
@@ -60,7 +61,8 @@ class MyApp extends StatelessWidget {
                 Search.id: (context) => Search(),
                 ProductsPage.id: (context) => ProductsPage(),
                 Favorite.id: (context) => Favorite(),
-                Categories.id: (context) => Categories()
+                Categories.id: (context) => Categories(),
+                UpdateImageProfile.id:(context)=>UpdateImageProfile(),
               },
               theme: ThemeData(fontFamily: 'Opti'),
             );
