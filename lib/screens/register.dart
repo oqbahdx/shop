@@ -34,7 +34,17 @@ class _RegisterPageState extends State<RegisterPage> {
     return BlocProvider(
       create: (BuildContext context) => ShopCubit(),
       child: BlocConsumer<ShopCubit, ShopStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is ShopSuccessRegisterState)
+            if(state.model.status){
+              showMessage(message: state.model.message,color: Colors.green);
+              moveToPage(context: context,pageName: LoginPage.id);
+            }else{
+              showMessage(message: state.model.message,color: Colors.red);
+
+            }
+
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
@@ -91,13 +101,18 @@ class _RegisterPageState extends State<RegisterPage> {
                         }),
                     sBox(height: hM * 0.15),
                     ConditionalBuilder(
-                      condition: state is! ShopLoadingState,
+                      condition: state is! ShopLoadingRegisterState,
                       builder: (context) =>
                           defaultSubmitButton(
                               text: 'Register',
                               onPress: () {
                                 if (formKey.currentState.validate()) {
-
+                                 ShopCubit.get(context).registerUser(
+                                   name: nameController.text,
+                                   email: emailController.text,
+                                   phone: phoneController.text,
+                                   password: passwordController.text
+                                 );
                                 } else {
                                   showMessage(
                                       message: 'Something went wrong',

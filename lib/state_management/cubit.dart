@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,17 +13,20 @@ import 'package:shop/utils/favorite_model.dart';
 import 'package:shop/utils/home_model.dart';
 import 'package:shop/utils/login_model.dart';
 import 'package:shop/utils/network.dart';
-import 'package:shop/utils/shared_prefrences.dart';
+import 'package:shop/utils/register_model.dart';
 
+import 'package:shop/utils/shared_prefrences.dart';
 
 class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitialState());
   LoginModel model;
   HomeModel homeModel;
   CategoriesModel cateModel;
+  RegisterModel rModel;
   Map<int, bool> favorite = {};
   ChangeFavoriteModel changeFavoriteModel;
   FavoritesModel favoriteModel;
+
   static ShopCubit get(context) => BlocProvider.of(context);
 
   void getHomeData() {
@@ -33,7 +37,7 @@ class ShopCubit extends Cubit<ShopStates> {
       homeModel.data.products.forEach((element) {
         favorite.addAll({element.id: element.inFavorites});
       });
-       print(token);
+      print(token);
       // print(favorite.toString());
       emit(ShopSuccessDataState());
     }).catchError((err) {
@@ -100,10 +104,10 @@ class ShopCubit extends Cubit<ShopStates> {
     emit(ShopChangeFavoriteState());
     HttpHelper.getFavorite(productId).then((value) {
       changeFavoriteModel = ChangeFavoriteModel.fromJson(value);
-       print(changeFavoriteModel.message);
-      if(!favoriteModel.status){
+      print(changeFavoriteModel.message);
+      if (!favoriteModel.status) {
         favorite[productId] = !favorite[productId];
-      }else{
+      } else {
         getAllFavorites();
       }
       emit(ShopSuccessGetFavoriteState(changeFavoriteModel));
@@ -112,47 +116,95 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
-
-  void getAllFavorites(){
+  void getAllFavorites() {
     emit(ShopLoadingGetAllFavorites());
-    HttpHelper.getAllFavorite().then((value){
+    HttpHelper.getAllFavorite().then((value) {
       favoriteModel = FavoritesModel.fromJson(value);
       print(favoriteModel.data.data[0].product.price);
       emit(ShopSuccessGetAllFavorites());
-    }).catchError((err){
+    }).catchError((err) {
       print(err.toString());
       emit(ShopErrorGetAllFavorites(err.toString()));
     });
   }
 
-  void getUserProfile(){
+  void getUserProfile() {
     emit(ShopLoadingProfileState());
-    HttpHelper.getProfile().then((value){
-      model  = LoginModel.fromJson(value);
-      print(model.data.name);
-      emit(ShopSuccessProfileState());
-    }).catchError((err){
-      print(err.toString());
-      emit(ShopErrorProfileState());
-    });
-  }
-
-  void updateProfile({String name,String email,String phone,String image}){
-    HttpHelper.updateUserProfile(
-      image: image,
-      email: email,
-      name: name,
-      phone: phone,
-    ).then((value){
+    HttpHelper.getProfile().then((value) {
       model = LoginModel.fromJson(value);
       print(model.data.name);
-      emit(ShopSuccessUpdateProfileState());
-    }).catchError((err){
-     print(err.toString());
-     emit(ShopErrorUpdateProfileState(err.toString()));
+      emit(ShopSuccessProfileState(model));
+    }).catchError((err) {
+      print(err.toString());
+      emit(ShopErrorProfileState(err.toString()));
     });
   }
 
+  void updateUserProfile(
+      {String name, String email, String phone, String image}) {
+    HttpHelper.userDioUpdateProfile(url: 'update-profile', data: {
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'image': image,
+    }).then((value) {
+      model = LoginModel.fromJson(value.data);
+      emit(ShopSuccessUpdateProfileState());
+    }).catchError((error) {
+      emit(ShopErrorUpdateProfileState(error));
+    });
+  }
+
+  void updateProfileWithImage(
+      {String name, String email, String phone, var image}) {
+    HttpHelper.updateProfileWithImage(
+            name: name, email: email, phone: phone, image: image)
+        .then((value) {
+      model = LoginModel.fromJson(value.data);
+      print(model.status);
+      emit(ShopSuccessUpdateProfileState());
+    }).catchError((error) {
+      print(error);
+      emit(ShopErrorUpdateProfileState(error));
+    });
+  }
+
+  void postUpdateData({
+    String email,
+    String name,
+    String phone,
+    dynamic image,
+  }) {
+    emit(ShopLoadingProfileState());
+    HttpHelper.userDioUpdate(url: 'update-profile', data: {
+      'email': email,
+      'name': name,
+      'phone': phone,
+      'image': image
+    }).then((value) {
+      model = LoginModel.fromJson(value.data);
+      emit(ShopSuccessProfileState(model));
+    }).catchError((err) {
+      emit(ShopErrorProfileState(err.toString()));
+    });
+  }
+
+  void registerUser(
+      {String name, String email, String password, String phone}) {
+    emit(ShopLoadingRegisterState());
+    HttpHelper.userDioRegister(url: 'register', data: {
+      'name': name,
+      'email': email,
+      'password': password,
+      'phone': phone
+    }).then((value) {
+      rModel = RegisterModel.fromJson(value.data);
+      print(rModel.status);
+      print(value);
+      emit(ShopSuccessRegisterState(rModel));
+    }).catchError((error) {
+      print(error.toString());
+      emit(ShopErrorRegisterState(error.toString()));
+    });
+  }
 }
-
-
